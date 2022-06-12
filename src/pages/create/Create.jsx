@@ -2,7 +2,9 @@ import "./Create.css";
 import React from "react";
 import { useState } from "react";
 import { useRef } from "react";
-
+import { useFetch } from "../../hooks/useFetch";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom"
 
 export default function Create() {
   const [title, setTitle] = useState("")
@@ -11,11 +13,19 @@ export default function Create() {
   const [tempIng, setTempIng] = useState("")
   const [ingredients, setIngredients] = useState([])
   const ingredientInput = useRef(null)
+  const navigate = useNavigate()
+  const { postData, data, error } = useFetch("http://localhost:3000/recipes", "POST")
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(e.target)
+    postData({ title, ingredients, method, cookingTime: cookingTime + " minutes" })
   }
+
+  useEffect(() => {
+    if (data) {
+      navigate('/')
+    }
+  }, [data])
 
   const handleAdd = (e) => {
     e.preventDefault()
@@ -46,11 +56,9 @@ export default function Create() {
               type="text"
               onChange={((e) => (setTempIng(e.target.value)))}
               value={tempIng}
-              required
               ref={ingredientInput}>
             </input>
             <button onClick={handleAdd}>Add</button>
-            {console.log(ingredients)}
           </div>
         </label>
         {/* <p>Current ingredients: {ingredients.map((ing) => (<em key={ing}>{ing}, </em>))}</p> */}
