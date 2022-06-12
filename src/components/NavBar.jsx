@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 
 export default function NavBar() {
   return (
-    <div>
+    <div className="navbar">
       <nav>
-        <Link to="/recipe">
+        <Link to="/" className="brand">
           <h1>Cooking Recipes</h1>
         </Link>
-        <Link to="/create">Create Recipes</Link>
+        <Link to="/create">
+          <div>Create a recipe</div>
+        </Link>
       </nav>
     </div>
   );
